@@ -85,7 +85,7 @@ npmPublish {
     packages {
         named("js") {
             packageJson {
-                name.set("extopy")
+                name.set("groupeminaste")
             }
         }
     }

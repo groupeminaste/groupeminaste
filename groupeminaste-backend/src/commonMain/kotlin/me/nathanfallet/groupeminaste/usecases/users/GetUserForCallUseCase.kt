@@ -19,7 +19,7 @@ class GetUserForCallUseCase(
         val user: User?,
     )
 
-    private val userKey = AttributeKey<UserForCall>("extopy-user")
+    private val userKey = AttributeKey<UserForCall>("groupeminaste-user")
 
     override suspend fun invoke(input: ApplicationCall): IUser? {
         // Note: we cannot use `computeIfAbsent` because it does not support suspending functions
