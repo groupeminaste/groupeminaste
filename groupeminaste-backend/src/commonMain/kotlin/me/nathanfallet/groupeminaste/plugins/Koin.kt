@@ -7,9 +7,7 @@ import me.nathanfallet.groupeminaste.controllers.auth.IAuthController
 import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardController
 import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardRouter
 import me.nathanfallet.groupeminaste.controllers.dashboard.IDashboardController
-import me.nathanfallet.groupeminaste.controllers.projects.IProjectsController
-import me.nathanfallet.groupeminaste.controllers.projects.ProjectsController
-import me.nathanfallet.groupeminaste.controllers.projects.ProjectsRouter
+import me.nathanfallet.groupeminaste.controllers.projects.*
 import me.nathanfallet.groupeminaste.controllers.web.IWebController
 import me.nathanfallet.groupeminaste.controllers.web.WebController
 import me.nathanfallet.groupeminaste.controllers.web.WebRouter
@@ -19,6 +17,7 @@ import me.nathanfallet.groupeminaste.database.projects.ProjectsDatabaseRepositor
 import me.nathanfallet.groupeminaste.database.users.UsersDatabaseRepository
 import me.nathanfallet.groupeminaste.models.projects.Project
 import me.nathanfallet.groupeminaste.models.projects.ProjectLink
+import me.nathanfallet.groupeminaste.models.projects.ProjectLinkPayload
 import me.nathanfallet.groupeminaste.models.projects.ProjectPayload
 import me.nathanfallet.groupeminaste.models.users.User
 import me.nathanfallet.groupeminaste.repositories.projects.IProjectLinksRepository
@@ -40,17 +39,25 @@ import me.nathanfallet.ktorx.usecases.users.IRequireUserForCallUseCase
 import me.nathanfallet.ktorx.usecases.users.RequireUserForCallUseCase
 import me.nathanfallet.surexposed.database.IDatabase
 import me.nathanfallet.usecases.localization.ITranslateUseCase
+import me.nathanfallet.usecases.models.create.CreateChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.create.CreateModelFromRepositorySuspendUseCase
+import me.nathanfallet.usecases.models.create.ICreateChildModelSuspendUseCase
 import me.nathanfallet.usecases.models.create.ICreateModelSuspendUseCase
+import me.nathanfallet.usecases.models.delete.DeleteChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.delete.DeleteModelFromRepositorySuspendUseCase
+import me.nathanfallet.usecases.models.delete.IDeleteChildModelSuspendUseCase
 import me.nathanfallet.usecases.models.delete.IDeleteModelSuspendUseCase
+import me.nathanfallet.usecases.models.get.GetChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.get.GetModelFromRepositorySuspendUseCase
+import me.nathanfallet.usecases.models.get.IGetChildModelSuspendUseCase
 import me.nathanfallet.usecases.models.get.IGetModelSuspendUseCase
 import me.nathanfallet.usecases.models.list.IListChildModelSuspendUseCase
 import me.nathanfallet.usecases.models.list.IListModelSuspendUseCase
 import me.nathanfallet.usecases.models.list.ListChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.list.ListModelFromRepositorySuspendUseCase
+import me.nathanfallet.usecases.models.update.IUpdateChildModelSuspendUseCase
 import me.nathanfallet.usecases.models.update.IUpdateModelSuspendUseCase
+import me.nathanfallet.usecases.models.update.UpdateChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.update.UpdateModelFromRepositorySuspendUseCase
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -134,6 +141,18 @@ fun Application.configureKoin() {
             single<IListChildModelSuspendUseCase<ProjectLink, String>>(named<ProjectLink>()) {
                 ListChildModelFromRepositorySuspendUseCase(get<IProjectLinksRepository>())
             }
+            single<IGetChildModelSuspendUseCase<ProjectLink, String, String>>(named<ProjectLink>()) {
+                GetChildModelFromRepositorySuspendUseCase(get<IProjectLinksRepository>())
+            }
+            single<ICreateChildModelSuspendUseCase<ProjectLink, ProjectLinkPayload, String>>(named<ProjectLink>()) {
+                CreateChildModelFromRepositorySuspendUseCase(get<IProjectLinksRepository>())
+            }
+            single<IUpdateChildModelSuspendUseCase<ProjectLink, String, ProjectLinkPayload, String>>(named<ProjectLink>()) {
+                UpdateChildModelFromRepositorySuspendUseCase(get<IProjectLinksRepository>())
+            }
+            single<IDeleteChildModelSuspendUseCase<ProjectLink, String, String>>(named<ProjectLink>()) {
+                DeleteChildModelFromRepositorySuspendUseCase(get<IProjectLinksRepository>())
+            }
         }
         val controllerModule = module {
             // Static web pages
@@ -160,12 +179,23 @@ fun Application.configureKoin() {
                     get(named<ProjectLink>())
                 )
             }
+            single<IProjectLinksController> {
+                ProjectLinksController(
+                    get(),
+                    get(named<ProjectLink>()),
+                    get(named<ProjectLink>()),
+                    get(named<ProjectLink>()),
+                    get(named<ProjectLink>()),
+                    get(named<ProjectLink>())
+                )
+            }
         }
         val routerModule = module {
             single { WebRouter(get(), get()) }
             single { AuthRouter(get(), get()) }
             single { DashboardRouter(get(), get(), get(), get()) }
             single { ProjectsRouter(get(), get(), get(), get()) }
+            single { ProjectLinksRouter(get(), get(), get(), get(), get()) }
         }
 
         modules(

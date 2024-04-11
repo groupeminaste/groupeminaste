@@ -107,6 +107,14 @@
 <#macro children name>
     <#switch name>
         <#case "projects">
+            <div class="col-md-4">
+                <div class="card card-body mt-4">
+                    <h6 class="mb-0" id="admin_children"><@t key="admin_menu_links" /></h6>
+                    <a href="links" class="btn bg-gradient-primary m-0 mt-3">
+                        <@t key="admin_links_view" />
+                    </a>
+                </div>
+            </div>
             <#break>
     </#switch>
 </#macro>
