@@ -15,5 +15,6 @@ fun Application.module() {
     configureSessions()
     configureTemplating()
     configureRouting()
+    configureStatusPage()
     configureMonitoring()
 }

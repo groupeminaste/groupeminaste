@@ -87,6 +87,8 @@ kotlin {
                 implementation("me.nathanfallet.ktorx:ktor-i18n-freemarker:$ktorxVersion")
                 implementation("me.nathanfallet.ktorx:ktor-routers:$ktorxVersion")
                 implementation("me.nathanfallet.ktorx:ktor-routers-locale:$ktorxVersion")
+                implementation("me.nathanfallet.ktorx:ktor-routers-admin:$ktorxVersion")
+                implementation("me.nathanfallet.ktorx:ktor-routers-admin-locale:$ktorxVersion")
                 implementation("me.nathanfallet.ktorx:ktor-sentry:$ktorxVersion")
                 implementation("me.nathanfallet.cloudflare:cloudflare-api-client:4.2.3")
 

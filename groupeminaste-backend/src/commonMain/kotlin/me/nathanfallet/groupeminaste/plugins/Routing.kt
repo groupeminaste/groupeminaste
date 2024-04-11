@@ -7,6 +7,7 @@ import io.ktor.server.routing.*
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.servers.Server
 import me.nathanfallet.groupeminaste.controllers.auth.AuthRouter
+import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardRouter
 import me.nathanfallet.groupeminaste.controllers.projects.ProjectsRouter
 import me.nathanfallet.groupeminaste.controllers.web.WebRouter
 import me.nathanfallet.ktorx.extensions.info
@@ -31,6 +32,7 @@ fun Application.configureRouting() {
             listOf(
                 get<WebRouter>(),
                 get<AuthRouter>(),
+                get<DashboardRouter>(),
                 get<ProjectsRouter>(),
                 OpenAPIRouter(), // OpenAPI should be last
             ).forEach {

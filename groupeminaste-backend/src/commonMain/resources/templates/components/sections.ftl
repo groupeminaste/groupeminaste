@@ -45,7 +45,7 @@
                                         </div>
                                     </div>
                                     <h3 class="mt-6">
-                                        <a href="portfolio-details.html"
+                                        <a href="/${locale}/projects/${project.id}"
                                            class="font-semibold text-black hover:text-primary text-xl inline-block mb-3">
                                             ${project.name} </a>
                                     </h3>
