@@ -32,9 +32,7 @@
                                 <div class="mb-12">
                                     <div class="relative group mb-8 overflow-hidden shadow-service rounded-md">
                                         <img src="${project.image}" alt="image" class="w-full"/>
-                                        <div
-                                                class="absolute w-full h-full top-0 left-0 bg-primary bg-opacity-[17%] flex items-center justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition"
-                                        >
+                                        <div class="absolute w-full h-full top-0 left-0 bg-primary bg-opacity-[17%] flex items-center justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
                                             <a href="${project.image}"
                                                class="glightbox w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full">
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -185,24 +183,24 @@
             </div>
             <div class="flex justify-center -mx-4">
                 <div class="w-full lg:w-9/12 px-4">
-                    <form>
+                    <form method="post" action="/${locale}/getintouch">
                         <div class="flex flex-wrap -mx-4">
                             <div class="w-full md:w-1/2 px-4">
                                 <div class="mb-6">
-                                    <input type="text" placeholder="<@t key="home_contact_field_name" />"
+                                    <input type="text" placeholder="<@t key="home_contact_field_name" />" name="name"
                                            class="input-field"/>
                                 </div>
                             </div>
                             <div class="w-full md:w-1/2 px-4">
                                 <div class="mb-6">
-                                    <input type="email" placeholder="<@t key="home_contact_field_email" />"
+                                    <input type="email" placeholder="<@t key="home_contact_field_email" />" name="email"
                                            class="input-field"/>
                                 </div>
                             </div>
                             <div class="w-full px-4">
                                 <div class="mb-6">
                                     <textarea rows="4" placeholder="<@t key="home_contact_field_tell_us" />"
-                                              class="input-field resize-none"></textarea>
+                                              name="message" class="input-field resize-none"></textarea>
                                 </div>
                             </div>
                             <div class="w-full px-4">

@@ -1,13 +1,16 @@
 package me.nathanfallet.groupeminaste.controllers.web
 
+import me.nathanfallet.groupeminaste.models.application.GetInTouchPayload
 import me.nathanfallet.groupeminaste.models.projects.Project
 import me.nathanfallet.groupeminaste.models.users.User
+import me.nathanfallet.groupeminaste.usecases.application.IGetInTouchUseCase
 import me.nathanfallet.ktorx.models.responses.RedirectResponse
 import me.nathanfallet.usecases.models.list.IListModelSuspendUseCase
 
 class WebController(
     private val listUsersUseCase: IListModelSuspendUseCase<User>,
     private val listProjectsUseCase: IListModelSuspendUseCase<Project>,
+    private val getInTouchUseCase: IGetInTouchUseCase,
 ) : IWebController {
 
     override suspend fun home(): Map<String, Any> {
@@ -22,5 +25,9 @@ class WebController(
     override fun discord() = RedirectResponse(
         "https://discord.gg/PeTpuCWnqs", true
     )
+
+    override suspend fun getInTouch(payload: GetInTouchPayload) {
+        getInTouchUseCase(payload)
+    }
 
 }

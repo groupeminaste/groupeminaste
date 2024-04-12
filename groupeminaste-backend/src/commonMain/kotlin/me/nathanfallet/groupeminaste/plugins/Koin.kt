@@ -23,8 +23,13 @@ import me.nathanfallet.groupeminaste.models.users.User
 import me.nathanfallet.groupeminaste.repositories.projects.IProjectLinksRepository
 import me.nathanfallet.groupeminaste.repositories.projects.IProjectsRepository
 import me.nathanfallet.groupeminaste.repositories.users.IUsersRepository
+import me.nathanfallet.groupeminaste.services.discord.DiscordService
+import me.nathanfallet.groupeminaste.services.discord.IDiscordService
+import me.nathanfallet.groupeminaste.services.email.EmailsService
+import me.nathanfallet.groupeminaste.services.email.IEmailsService
 import me.nathanfallet.groupeminaste.services.jwt.IJWTService
 import me.nathanfallet.groupeminaste.services.jwt.JWTService
+import me.nathanfallet.groupeminaste.usecases.application.*
 import me.nathanfallet.groupeminaste.usecases.auth.*
 import me.nathanfallet.groupeminaste.usecases.users.GetUserForCallUseCase
 import me.nathanfallet.groupeminaste.usecases.web.GetAdminMenuForCallUseCase
@@ -38,6 +43,7 @@ import me.nathanfallet.ktorx.usecases.users.IGetUserForCallUseCase
 import me.nathanfallet.ktorx.usecases.users.IRequireUserForCallUseCase
 import me.nathanfallet.ktorx.usecases.users.RequireUserForCallUseCase
 import me.nathanfallet.surexposed.database.IDatabase
+import me.nathanfallet.usecases.emails.ISendEmailUseCase
 import me.nathanfallet.usecases.localization.ITranslateUseCase
 import me.nathanfallet.usecases.models.create.CreateChildModelFromRepositorySuspendUseCase
 import me.nathanfallet.usecases.models.create.CreateModelFromRepositorySuspendUseCase
@@ -77,10 +83,22 @@ fun Application.configureKoin() {
             }
         }
         val serviceModule = module {
+            single<IEmailsService> {
+                EmailsService(
+                    environment.config.property("email.host").getString(),
+                    environment.config.property("email.username").getString(),
+                    environment.config.property("email.password").getString()
+                )
+            }
             single<IJWTService> {
                 JWTService(
                     environment.config.property("jwt.secret").getString(),
                     environment.config.property("jwt.issuer").getString()
+                )
+            }
+            single<IDiscordService> {
+                DiscordService(
+                    environment.config.property("discord.getInTouch").getString()
                 )
             }
         }
@@ -97,8 +115,11 @@ fun Application.configureKoin() {
         }
         val useCaseModule = module {
             // Application
+            single<ISendEmailUseCase> { SendEmailUseCase(get()) }
+            single<ISendDiscordWebhookUseCase> { SendDiscordWebhookUseCase(get()) }
             single<ITranslateUseCase> { TranslateUseCase() }
             single<IGetLocaleForCallUseCase> { GetLocaleForCallUseCase() }
+            single<IGetInTouchUseCase> { GetInTouchUseCase(get(), get()) }
 
             // Auth
             single<IHashPasswordUseCase> { HashPasswordUseCase() }
@@ -159,7 +180,8 @@ fun Application.configureKoin() {
             single<IWebController> {
                 WebController(
                     get(named<User>()),
-                    get(named<Project>())
+                    get(named<Project>()),
+                    get()
                 )
             }
             single<IDashboardController> { DashboardController() }
