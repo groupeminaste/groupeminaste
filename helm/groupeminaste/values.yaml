@@ -147,6 +147,9 @@ jwt:
 email:
   password: ''
 
+discord:
+  getInTouch: ''
+
 # MySQL configuration
 
 mysql:

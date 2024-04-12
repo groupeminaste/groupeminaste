@@ -95,6 +95,8 @@ spec:
                   name: {{ .Values.existingSecret }}
                   {{- end }}
                   key: email-password
+            - name: DISCORD_GET_IN_TOUCH
+              value: {{ .Values.discord.getInTouch }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
