@@ -90,7 +90,7 @@ kotlin {
                 implementation("me.nathanfallet.ktorx:ktor-routers-admin:$ktorxVersion")
                 implementation("me.nathanfallet.ktorx:ktor-routers-admin-locale:$ktorxVersion")
                 implementation("me.nathanfallet.ktorx:ktor-sentry:$ktorxVersion")
-                implementation("me.nathanfallet.cloudflare:cloudflare-api-client:4.2.3")
+                implementation("me.nathanfallet.cloudflare:cloudflare-api-client:4.3.0-alpha1")
 
                 implementation("com.mysql:mysql-connector-j:8.0.33")
                 implementation("at.favre.lib:bcrypt:0.9.0")

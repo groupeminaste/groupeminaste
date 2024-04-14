@@ -16,7 +16,7 @@ class GetAdminMenuForCallUseCase(
     override suspend fun invoke(input: ApplicationCall): List<WebMenu> {
         requireUserForCallUseCase(input) as User
         val locale = getLocaleForCallUseCase(input)
-        return listOf("dashboard", "projects")
+        return listOf("dashboard", "projects", "files")
             .map {
                 WebMenu(
                     it,

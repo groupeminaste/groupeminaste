@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.servers.Server
 import me.nathanfallet.groupeminaste.controllers.auth.AuthRouter
 import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardRouter
+import me.nathanfallet.groupeminaste.controllers.files.FilesRouter
 import me.nathanfallet.groupeminaste.controllers.projects.ProjectLinksRouter
 import me.nathanfallet.groupeminaste.controllers.projects.ProjectsRouter
 import me.nathanfallet.groupeminaste.controllers.web.WebRouter
@@ -34,6 +35,7 @@ fun Application.configureRouting() {
                 get<WebRouter>(),
                 get<AuthRouter>(),
                 get<DashboardRouter>(),
+                get<FilesRouter>(),
                 get<ProjectsRouter>(),
                 get<ProjectLinksRouter>(),
                 OpenAPIRouter(), // OpenAPI should be last

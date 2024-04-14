@@ -97,6 +97,42 @@ spec:
                   key: email-password
             - name: DISCORD_GET_IN_TOUCH
               value: {{ .Values.discord.getInTouch }}
+            - name: CLOUDFLARE_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  {{ if not .Values.existingSecret -}}
+                  name: {{ include "groupeminaste.fullname" . }}
+                  {{- else }}
+                  name: {{ .Values.existingSecret }}
+                  {{- end }}
+                  key: cloudflare-account
+            - name: CLOUDFLARE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{ if not .Values.existingSecret -}}
+                  name: {{ include "groupeminaste.fullname" . }}
+                  {{- else }}
+                  name: {{ .Values.existingSecret }}
+                  {{- end }}
+                  key: cloudflare-token
+            - name: CLOUDFLARE_ID
+              valueFrom:
+                secretKeyRef:
+                  {{ if not .Values.existingSecret -}}
+                  name: {{ include "groupeminaste.fullname" . }}
+                  {{- else }}
+                  name: {{ .Values.existingSecret }}
+                  {{- end }}
+                  key: cloudflare-id
+            - name: CLOUDFLARE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{ if not .Values.existingSecret -}}
+                  name: {{ include "groupeminaste.fullname" . }}
+                  {{- else }}
+                  name: {{ .Values.existingSecret }}
+                  {{- end }}
+                  key: cloudflare-secret
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
