@@ -26,8 +26,10 @@ class WebController(
         "https://discord.gg/PeTpuCWnqs", true
     )
 
-    override suspend fun getInTouch(payload: GetInTouchPayload) {
-        getInTouchUseCase(payload)
-    }
+    override suspend fun getInTouch(payload: GetInTouchPayload) = getInTouchUseCase(payload)
+
+    override suspend fun infos(file: String) = RedirectResponse(
+        "https://cdn.groupe-minaste.org/$file", true
+    )
 
 }

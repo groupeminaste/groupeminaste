@@ -150,6 +150,12 @@ email:
 discord:
   getInTouch: ''
 
+cloudflare:
+  account: ''
+  token: ''
+  id: ''
+  secret: ''
+
 # MySQL configuration
 
 mysql:

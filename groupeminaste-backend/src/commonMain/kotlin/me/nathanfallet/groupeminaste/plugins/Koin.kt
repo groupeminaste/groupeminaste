@@ -1,12 +1,19 @@
 package me.nathanfallet.groupeminaste.plugins
 
 import io.ktor.server.application.*
+import me.nathanfallet.cloudflare.client.CloudflareClient
+import me.nathanfallet.cloudflare.client.ICloudflareClient
+import me.nathanfallet.cloudflare.r2.IR2Client
+import me.nathanfallet.cloudflare.r2.R2Client
 import me.nathanfallet.groupeminaste.controllers.auth.AuthController
 import me.nathanfallet.groupeminaste.controllers.auth.AuthRouter
 import me.nathanfallet.groupeminaste.controllers.auth.IAuthController
 import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardController
 import me.nathanfallet.groupeminaste.controllers.dashboard.DashboardRouter
 import me.nathanfallet.groupeminaste.controllers.dashboard.IDashboardController
+import me.nathanfallet.groupeminaste.controllers.files.FilesController
+import me.nathanfallet.groupeminaste.controllers.files.FilesRouter
+import me.nathanfallet.groupeminaste.controllers.files.IFilesController
 import me.nathanfallet.groupeminaste.controllers.projects.*
 import me.nathanfallet.groupeminaste.controllers.web.IWebController
 import me.nathanfallet.groupeminaste.controllers.web.WebController
@@ -31,6 +38,10 @@ import me.nathanfallet.groupeminaste.services.jwt.IJWTService
 import me.nathanfallet.groupeminaste.services.jwt.JWTService
 import me.nathanfallet.groupeminaste.usecases.application.*
 import me.nathanfallet.groupeminaste.usecases.auth.*
+import me.nathanfallet.groupeminaste.usecases.files.IListFilesUseCase
+import me.nathanfallet.groupeminaste.usecases.files.IUploadFileUseCase
+import me.nathanfallet.groupeminaste.usecases.files.ListFilesUseCase
+import me.nathanfallet.groupeminaste.usecases.files.UploadFileUseCase
 import me.nathanfallet.groupeminaste.usecases.users.GetUserForCallUseCase
 import me.nathanfallet.groupeminaste.usecases.web.GetAdminMenuForCallUseCase
 import me.nathanfallet.groupeminaste.usecases.web.IGetAdminMenuForCallUseCase
@@ -101,6 +112,18 @@ fun Application.configureKoin() {
                     environment.config.property("discord.getInTouch").getString()
                 )
             }
+            single<ICloudflareClient> {
+                CloudflareClient(
+                    environment.config.property("cloudflare.token").getString()
+                )
+            }
+            single<IR2Client> {
+                R2Client(
+                    environment.config.property("cloudflare.id").getString(),
+                    environment.config.property("cloudflare.secret").getString(),
+                    environment.config.property("cloudflare.account").getString()
+                )
+            }
         }
         val repositoryModule = module {
             // Application
@@ -129,6 +152,21 @@ fun Application.configureKoin() {
             single<ISetSessionForCallUseCase> { SetSessionForCallUseCase() }
             single<IClearSessionForCallUseCase> { ClearSessionForCallUseCase() }
             single<ILoginUseCase> { LoginUseCase(get(), get()) }
+
+            // Files
+            single<IListFilesUseCase> {
+                ListFilesUseCase(
+                    get(),
+                    environment.config.property("cloudflare.bucket").getString()
+                )
+            }
+            single<IUploadFileUseCase> {
+                UploadFileUseCase(
+                    get(),
+                    get(),
+                    environment.config.property("cloudflare.bucket").getString()
+                )
+            }
 
             // Web
             single<IGetAdminMenuForCallUseCase> { GetAdminMenuForCallUseCase(get(), get(), get()) }
@@ -185,6 +223,7 @@ fun Application.configureKoin() {
                 )
             }
             single<IDashboardController> { DashboardController() }
+            single<IFilesController> { FilesController(get(), get()) }
 
             // Auth
             single<IAuthController> { AuthController(get(), get(), get()) }
@@ -216,6 +255,7 @@ fun Application.configureKoin() {
             single { WebRouter(get(), get()) }
             single { AuthRouter(get(), get()) }
             single { DashboardRouter(get(), get(), get(), get()) }
+            single { FilesRouter(get(), get(), get(), get()) }
             single { ProjectsRouter(get(), get(), get(), get()) }
             single { ProjectLinksRouter(get(), get(), get(), get(), get()) }
         }
