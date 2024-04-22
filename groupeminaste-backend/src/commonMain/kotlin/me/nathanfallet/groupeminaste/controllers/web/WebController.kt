@@ -22,6 +22,8 @@ class WebController(
         )
     }
 
+    override suspend fun mentionsLegales() {}
+
     override fun discord() = RedirectResponse(
         "https://discord.gg/PeTpuCWnqs", true
     )

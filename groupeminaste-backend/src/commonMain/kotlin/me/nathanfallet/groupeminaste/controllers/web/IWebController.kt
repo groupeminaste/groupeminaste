@@ -14,6 +14,10 @@ interface IWebController : IUnitController {
     @Path("GET", "/")
     suspend fun home(): Map<String, Any>
 
+    @TemplateMapping("public/mentions-legales.ftl")
+    @Path("GET", "/mentions-legales")
+    suspend fun mentionsLegales()
+
     @TemplateMapping("public/home.ftl")
     @Path("GET", "/discord")
     fun discord(): RedirectResponse

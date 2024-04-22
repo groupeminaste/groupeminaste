@@ -85,6 +85,10 @@
                         <p class="font-medium text-base text-body-color mb-2">
                             <a href="tel:+33666586516">🇫🇷 +33 6 66 58 65 16</a>
                         </p>
+
+                        <p class="font-medium text-base text-body-color mb-2">
+                            <a href="/mentions-legales">Mentions légales</a>
+                        </p>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 lg:w-4/12 px-4">
