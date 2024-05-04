@@ -41,7 +41,7 @@
                     <p>Le responsable publication est une personne physique.</p>
                     <p>Webmaster : Michaël Nass – <a href="mailto:plugn@groupe-minaste.org">plugn@groupe-minaste.org</a>
                     </p>
-                    <p>Hébergeur : Groupe MINASTE – 79 Quai Panhard et Levassor 75013 Paris – +33 (0) 6 66 58 65 16</p>
+                    <p>Hébergeur : Groupe MINASTE – 79 Quai Panhard et Levassor 75013 Paris – +33 7 60 78 12 64</p>
                     <p>Ce modèle de mentions légales est offert par Générateur de mentions légales pour site
                         internet</p>
                     <h3 class="font-semibold text-black text-2xl md:text-3xl mt-6">2. Conditions générales d’utilisation
