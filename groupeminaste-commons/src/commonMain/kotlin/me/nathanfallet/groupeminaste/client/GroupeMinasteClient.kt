@@ -9,7 +9,7 @@ class GroupeMinasteClient(
 ) : AbstractAPIClient(
     "https://groupe-minaste.org",
     getTokenUseCase,
-    GroupeMinasteJson.json
+    json = GroupeMinasteJson.json
 ), IGroupeMinasteClient {
-    
+
 }
